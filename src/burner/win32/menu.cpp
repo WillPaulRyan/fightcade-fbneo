@@ -577,7 +577,7 @@ static void CreateCPUSpeedItem(bool bOther)
 
 	FBALoadString(hAppInst, IDS_MENU_3, szItemText, 256);
 	if (bOther) {
-		_stprintf(szItemText + _tcslen(szItemText), _T("\t(%d%%)"), nBurnCPUSpeedAdjust * 100 / 256);
+		_stprintf(szItemText + _tcslen(szItemText), _T("\t(%d%%)"), (int)((double)nBurnCPUSpeedAdjust * 100 / 256 + 0.5));
 	}
 	menuItem.cch = _tcslen(szItemText);
 	SetMenuItemInfo(hMenu, MENU_SETCPUCLOCK, 0, &menuItem);
@@ -1071,6 +1071,7 @@ void MenuUpdate()
 	CheckMenuItem(hMenu, MENU_DISABLE_SOCD, (nEnableSOCD == 0) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_ENABLE_SOCD, (nEnableSOCD == 1) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_HITBOX_SOCD, (nEnableSOCD == 2) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_4WAY_SOCD, (nEnableSOCD == 3) ? MF_CHECKED : MF_UNCHECKED);
 
 	CheckMenuItem(hMenu, MENU_SAVEHISCORES, EnableHiscores ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_USEBLEND, bBurnUseBlend ? MF_CHECKED : MF_UNCHECKED);

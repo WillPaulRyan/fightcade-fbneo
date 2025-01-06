@@ -984,6 +984,16 @@ static INT32 agalletaInit()
 	return gameInit();
 }
 
+// ----------------------------------------------------------------------------
+// @FC - Overclocker Function
+
+static void sailorOverclocker(INT32 value) {
+	if (value > nBurnCPUSpeedAdjust) {
+		nBurnCPUSpeedAdjust = value;
+	}
+}
+
+// ----------------------------------------------------------------------------
 // Rom information
 
 static struct BurnRomInfo sailormnRomDesc[] = {
@@ -2060,13 +2070,26 @@ struct BurnDriver BurnDrvSailorMoonOh = {
 	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
+static INT32 sailormnrotInit()
+{
+	extern int kNetGame, kNetSpectator, kNetVersion;
+	if (kNetVersion <= NET_VERSION_ONLINE_DIPS && (kNetGame || kNetSpectator)) {
+		//default speed
+	}
+	else {
+		sailorOverclocker(0x0180);
+	}
+	
+	return sailormnInit();
+}
+
 struct BurnDriver BurnDrvSailorMoonrot = {
 	"sailormnrot", "sailormn", NULL, NULL, "2022",
 	"Pretty Soldier Sailor Moon (Reign of Terror, Hack)\0", NULL, "Zombie Master", "Cave",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_16BIT_ONLY, 2, HARDWARE_CAVE_68K_Z80, GBF_SCRFIGHT, 0,
 	NULL, sailormnrotRomInfo, sailormnrotRomName, NULL, NULL, NULL, NULL, sailormnInputInfo, NULL,
-	sailormnInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
+	sailormnrotInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 

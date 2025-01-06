@@ -197,6 +197,8 @@ struct BurnDIPInfo {
 // sync to cpuTotalCycles()
 #define CPU_RUN_SYNCINT(num,proc) do { nCyclesDone[num] += proc ## Run(((i + 1) * nCyclesTotal[num] / nInterleave) - proc ## TotalCycles()); } while (0)
 #define CPU_IDLE_SYNCINT(num,proc) do { nCyclesDone[num] += proc ## Idle(((i + 1) * nCyclesTotal[num] / nInterleave) - proc ## TotalCycles()); } while (0)
+// sync to timer
+#define CPU_RUN_TIMER(num) do { BurnTimerUpdate((i + 1) * nCyclesTotal[num] / nInterleave); if (i == nInterleave - 1) BurnTimerEndFrame(nCyclesTotal[num]); } while (0)
 
 #define CPU_IRQSTATUS_NONE	0
 #define CPU_IRQSTATUS_ACK	1
@@ -726,8 +728,9 @@ enum NetVersion
 	NET_VERSION_DISABLE_FORCE_60HZ = 12,
 	NET_VERSION_CPS_RW_SCAN = 12,
 	NET_VERSION_ONLINE_DIPS = 13,
+	NET_VERSION_OVERCLOCKED_GAMES = 14,
 	// Current version
-	NET_VERSION	= 13,
+	NET_VERSION	= 14,
 };
 
 #ifdef __cplusplus
